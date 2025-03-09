@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modular Arithmetic Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .main {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 100%;
+            max-width: 28rem;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .header svg {
+            width: 2rem;
+            height: 2rem;
+            color: #2563EB;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1F2937;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            border: 1px solid #D1D5DB;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #2563EB;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        button {
+            flex: 1;
+            background: #2563EB;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background: #1D4ED8;
+        }
+
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.4);
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #EFF6FF;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-weight: 500;
+            color: #1E40AF;
+            display: none;
+        }
+
+        .result.visible {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="2" width="16" height="20" rx="2" />
+                <line x1="8" x2="16" y1="6" y2="6" />
+                <line x1="16" x2="16" y1="14" y2="18" />
+                <path d="M16 10h.01" />
+                <path d="M12 10h.01" />
+                <path d="M8 10h.01" />
+                <path d="M12 14h.01" />
+                <path d="M8 14h.01" />
+                <path d="M12 18h.01" />
+                <path d="M8 18h.01" />
+            </svg>
+            <h1>Modular Arithmetic</h1>
+        </div>
+
+        <div class="input-group">
+            <label for="num1">First Number</label>
+            <input type="number" id="num1" placeholder="Enter first number">
+        </div>
+
+        <div class="input-group">
+            <label for="num2">Second Number</label>
+            <input type="number" id="num2" placeholder="Enter second number">
+        </div>
+
+        <div class="input-group">
+            <label for="mod">Modulus</label>
+            <input type="number" id="mod" placeholder="Enter modulus">
+        </div>
+
+        <div class="button-group">
+            <button onclick="calculate('add')">Addition</button>
+            <button onclick="calculate('subtract')">Subtraction</button>
+        </div>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function modularAddition(a, b, mod) {
+            return ((a % mod) + (b % mod)) % mod;
+        }
+
+        function modularSubtraction(a, b, mod) {
+            return ((a % mod) - (b % mod) + mod) % mod;
+        }
+
+        function calculate(operation) {
+            const num1 = parseInt(document.getElementById('num1').value);
+            const num2 = parseInt(document.getElementById('num2').value);
+            const mod = parseInt(document.getElementById('mod').value);
+            const resultElement = document.getElementById('result');
+
+            if (isNaN(num1) || isNaN(num2) || isNaN(mod)) {
+                resultElement.textContent = 'Please enter valid numbers';
+                resultElement.className = 'result visible';
+                return;
+            }
+
+            if (mod <= 0) {
+                resultElement.textContent = 'Modulus must be positive';
+                resultElement.className = 'result visible';
+                return;
+            }
+
+            let result;
+
+            if (operation === 'add') {
+                result = modularAddition(num1, num2, mod);
+            } else {
+                result = modularSubtraction(num1, num2, mod);
+            }
+
+
+            if (operation === 'add') {
+                resultElement.textContent = `Addition Result: ${result}`;
+            } else {
+                resultElement.textContent = `Subtraction Result: ${result}`;
+            }
+
+            resultElement.className = 'result visible';
+        }
+    </script>
+</body>
+
+</html>
