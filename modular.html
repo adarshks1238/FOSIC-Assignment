@@ -5,121 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modular Arithmetic Calculator</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .main {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            width: 100%;
-            max-width: 28rem;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .header svg {
-            width: 2rem;
-            height: 2rem;
-            color: #2563EB;
-        }
-
-        .header h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1F2937;
-        }
-
-        .input-group {
-            margin-bottom: 1rem;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 0.25rem;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 0.5rem 1rem;
-            border: 1px solid #D1D5DB;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            transition: all 0.2s;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #2563EB;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-        }
-
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        button {
-            flex: 1;
-            background: #2563EB;
-            color: white;
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        button:hover {
-            background: #1D4ED8;
-        }
-
-        button:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.4);
-        }
-
-        .result {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: #EFF6FF;
-            border-radius: 0.5rem;
-            text-align: center;
-            font-weight: 500;
-            color: #1E40AF;
-            display: none;
-        }
-
-        .result.visible {
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="modular.css">
 </head>
 
 <body>
@@ -158,57 +44,12 @@
 
         <div class="button-group">
             <button onclick="calculate('add')">Addition</button>
-            <button onclick="calculate('subtract')">Subtraction</button>
+            <button onclick="calculate('sub')">Subtraction</button>
+            <button onclick="calculate('mul')">Multiplication</button>
         </div>
-
         <div id="result" class="result"></div>
     </div>
-
-    <script>
-        function modularAddition(a, b, mod) {
-            return ((a % mod) + (b % mod)) % mod;
-        }
-
-        function modularSubtraction(a, b, mod) {
-            return ((a % mod) - (b % mod) + mod) % mod;
-        }
-
-        function calculate(operation) {
-            const num1 = parseInt(document.getElementById('num1').value);
-            const num2 = parseInt(document.getElementById('num2').value);
-            const mod = parseInt(document.getElementById('mod').value);
-            const resultElement = document.getElementById('result');
-
-            if (isNaN(num1) || isNaN(num2) || isNaN(mod)) {
-                resultElement.textContent = 'Please enter valid numbers';
-                resultElement.className = 'result visible';
-                return;
-            }
-
-            if (mod <= 0) {
-                resultElement.textContent = 'Modulus must be positive';
-                resultElement.className = 'result visible';
-                return;
-            }
-
-            let result;
-
-            if (operation === 'add') {
-                result = modularAddition(num1, num2, mod);
-            } else {
-                result = modularSubtraction(num1, num2, mod);
-            }
-
-
-            if (operation === 'add') {
-                resultElement.textContent = `Addition Result: ${result}`;
-            } else {
-                resultElement.textContent = `Subtraction Result: ${result}`;
-            }
-
-            resultElement.className = 'result visible';
-        }
-    </script>
+    <script src="modular.js"></script>
 </body>
 
 </html>
